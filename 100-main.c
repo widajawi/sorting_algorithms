@@ -1,21 +1,46 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "sort.h"
+#include <stdio.h>
+/**
+ * _swap - swaped 2 values.
+ * @array: the array for swap him values.
+ * @i: First index
+ * @j: Second index
+ * Return: Nothing
+ */
+void _swap(int *array, int i, int j)
+{
+	int tmp;
+
+	if (array[i] != array[j])
+	{
+		tmp = array[i];
+		array[i] = array[j];
+		array[j] = tmp;
+	}
+}
 
 /**
- * main - Entry point
- *
- * Return: Always 0
+ * shell_sort - sort the list and print the changes
+ * @array: The array to sort.
+ * @size: Size of the array
+ * Return: Nothing
  */
-int main(void)
+void shell_sort(int *array, size_t size)
 {
-    int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
-    size_t n = sizeof(array) / sizeof(array[0]);
+	size_t h = 0,  i, j;
 
-    print_array(array, n);
-    printf("\n");
-    shell_sort(array, n);
-    printf("\n");
-    print_array(array, n);
-    return (0);
+	if (size < 2)
+		return;
+
+	while (h <= size / 3)
+		h = h * 3 + 1;
+
+	while (h >= 1)
+	{
+		for (i = h; i < size; i++)
+			for (j = i; j >= h && array[j] < array[j - h]; j -= h)
+				_swap(array, j, j - h);
+		h /= 3;
+		print_array(array, size);
+	}
 }
